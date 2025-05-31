@@ -2,7 +2,9 @@ services:
   - type: web
     name: campus-connect-api
     env: python
-    buildCommand: pip install -r requirements.txt
+    buildCommand: |
+      pip install -r requirements.txt
+      python nltk_setup.py
     startCommand: gunicorn run:app
     envVars:
       - key: FLASK_ENV
