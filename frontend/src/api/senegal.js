@@ -137,3 +137,39 @@ export const unsaveSenegalJob = async (jobId) => {
     message: 'Job removed from saved jobs'
   };
 };
+
+// Fonction de recherche d'emplois (utilisée dans JobMatchingComponent.jsx)
+export const searchSenegalJobs = async (searchQuery) => {
+  console.log('searchSenegalJobs called with:', searchQuery);
+  return {
+    jobs: [
+      {
+        id: 1,
+        title: 'Placeholder Job 1 - Search Result',
+        company: 'Placeholder Company',
+        location: 'Dakar, Senegal',
+        description: 'This is a placeholder job description that matches your search.',
+        requirements: ['Placeholder requirement'],
+        salary: 'Competitive',
+        date: new Date().toISOString(),
+        industry: 'Technology',
+        type: 'Full-time',
+        skills: ['JavaScript', 'React', 'Node.js']
+      },
+      {
+        id: 2,
+        title: 'Placeholder Job 2 - Search Result',
+        company: 'Another Company',
+        location: 'Saint-Louis, Senegal',
+        description: 'This is another placeholder job description that matches your search.',
+        requirements: ['Placeholder requirement'],
+        salary: 'Competitive',
+        date: new Date().toISOString(),
+        industry: 'Finance',
+        type: 'Part-time',
+        skills: ['Python', 'Data Analysis']
+      }
+    ],
+    total: 2
+  };
+};
