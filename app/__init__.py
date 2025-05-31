@@ -198,7 +198,8 @@ def register_error_handlers(app):
     def unauthorized_error(error):
         if request.path.startswith('/api/'):
             return jsonify({'error': 'Unauthorized', 'message': str(error)}), 401
-        return redirect(url_for('auth.login'))
+        # Utiliser une redirection directe au lieu de url_for pour éviter les erreurs en production
+        return redirect('/auth/login')
 
     @app.errorhandler(403)
     def forbidden_error(error):
