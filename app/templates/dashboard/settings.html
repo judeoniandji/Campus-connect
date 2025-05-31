@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container settings-page my-4">
+    <h1 class="mb-4">Paramètres</h1>
+    
+    <!-- Thème -->
+    <div class="setting-section card mb-4 p-3">
+        <h3 class="card-title">🎨 Thème</h3>
+        <div class="theme-selector btn-group" role="group" aria-label="Sélection du thème">
+            <button class="btn btn-outline-primary" data-theme="light" id="lightTheme">Mode clair</button>
+            <button class="btn btn-outline-dark" data-theme="dark" id="darkTheme">Mode sombre</button>
+        </div>
+    </div>
+
+    <!-- Langue -->
+    <div class="setting-section card mb-4 p-3">
+        <h3 class="card-title">🌐 Langue</h3>
+        <select class="form-select" id="languageSelect" aria-label="Sélection de la langue">
+            <option value="fr" selected>Français</option>
+            <option value="en">English</option>
+            <option value="wo">Wolof</option>
+        </select>
+    </div>
+
+    <!-- Gestion des accès (entreprises uniquement) -->
+    {% if current_user.is_company %}
+    <div class="setting-section card mb-4 p-3">
+        <h3 class="card-title">🏢 Gestion des accès</h3>
+        <div class="co-admins-list mb-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Rôle</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="adminsList">
+                    <!-- La liste sera remplie dynamiquement par JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-primary" id="inviteManager" data-bs-toggle="modal" data-bs-target="#inviteModal">
+            <i class="fas fa-user-plus"></i> Inviter un nouveau gestionnaire
+        </button>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Modal d'invitation -->
+<div class="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="inviteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="inviteModalLabel">Inviter un gestionnaire</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+            <div class="modal-body">
+                <form id="inviteForm">
+                    <div class="mb-3">
+                        <label for="inviteEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="inviteEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inviteRole" class="form-label">Rôle</label>
+                        <select class="form-select" id="inviteRole" required>
+                            <option value="editor">Éditeur</option>
+                            <option value="viewer">Lecteur</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="sendInvite">Envoyer l'invitation</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Gestion du thème
+    const themeButtons = document.querySelectorAll('.theme-selector button');
+    themeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const theme = this.dataset.theme;
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            
+            // Mise à jour visuelle des boutons
+            themeButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Gestion de la langue
+    const languageSelect = document.getElementById('languageSelect');
+    languageSelect.addEventListener('change', function() {
+        const language = this.value;
+        fetch('/api/settings/language', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ language })
+        }).then(() => {
+            window.location.reload();
+        });
+    });
+
+    // Gestion des invitations
+    const sendInviteButton = document.getElementById('sendInvite');
+    if (sendInviteButton) {
+        sendInviteButton.addEventListener('click', function() {
+            const email = document.getElementById('inviteEmail').value;
+            const role = document.getElementById('inviteRole').value;
+            
+            fetch('/api/settings/invite', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, role })
+            }).then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Fermer le modal et rafraîchir la liste
+                    bootstrap.Modal.getInstance(document.getElementById('inviteModal')).hide();
+                    loadAdminsList();
+                }
+            });
+        });
+    }
+
+    // Chargement initial de la liste des administrateurs
+    function loadAdminsList() {
+        const adminsList = document.getElementById('adminsList');
+        if (adminsList) {
+            fetch('/api/settings/admins')
+            .then(response => response.json())
+            .then(data => {
+                adminsList.innerHTML = data.admins.map(admin => `
+                    <tr>
+                        <td>${admin.name}</td>
+                        <td>${admin.email}</td>
+                        <td>${admin.role}</td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" onclick="removeAdmin('${admin.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            });
+        }
+    }
+
+    // Chargement initial
+    loadAdminsList();
+});
+
+function removeAdmin(adminId) {
+    if (confirm('Êtes-vous sûr de vouloir retirer cet administrateur ?')) {
+        fetch(`/api/settings/admins/${adminId}`, {
+            method: 'DELETE'
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                loadAdminsList();
+            }
+        });
+    }
+}
+</script>
+{% endblock %}
+{% endblock %}

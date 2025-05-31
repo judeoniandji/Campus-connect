@@ -44,7 +44,7 @@ function Notifications() {
       id: 3,
       type: 'message',
       title: 'Nouveau message',
-      message: 'Jean Dupont vous a envoyé un message',
+      message: 'Amadou Diallo vous a envoyé un message',
       date: '2024-03-19T15:45:00',
       read: true,
     },

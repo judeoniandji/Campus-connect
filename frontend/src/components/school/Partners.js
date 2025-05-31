@@ -58,8 +58,8 @@ function Partners() {
         name: 'TechCorp',
         industry: 'Technologie',
         email: 'contact@techcorp.com',
-        phone: '+33 1 23 45 67 89',
-        location: 'Paris',
+        phone: '+221 33 123 45 67',
+        location: 'Dakar',
         logo: '/path/to/logo1.jpg',
         status: 'active',
         partnershipLevel: 'premium',
@@ -68,7 +68,7 @@ function Partners() {
         students: [
           {
             id: 1,
-            name: 'Marie Martin',
+            name: 'Fatou Diop',
             position: 'Développeur Frontend',
             startDate: '2024-03-01',
           },
@@ -87,8 +87,8 @@ function Partners() {
         name: 'Digital Solutions',
         industry: 'Services Numériques',
         email: 'contact@digitalsolutions.com',
-        phone: '+33 1 98 76 54 32',
-        location: 'Lyon',
+        phone: '+221 33 987 65 43',
+        location: 'Saint-Louis',
         logo: '/path/to/logo2.jpg',
         status: 'active',
         partnershipLevel: 'standard',
@@ -97,7 +97,7 @@ function Partners() {
         students: [
           {
             id: 2,
-            name: 'Pierre Dubois',
+            name: 'Ousmane Ndiaye',
             position: 'Développeur Backend',
             startDate: '2024-02-15',
           },

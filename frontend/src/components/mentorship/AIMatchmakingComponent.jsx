@@ -147,7 +147,7 @@ const AIMatchmakingComponent = () => {
       return [
         {
           id: 1,
-          name: 'Jean Dupont',
+          name: 'Amadou Diallo',
           userType: 'mentor',
           expertise: STUDY_FIELDS.find(field => field.id === 'computer_science'),
           skills: [
@@ -162,7 +162,7 @@ const AIMatchmakingComponent = () => {
         },
         {
           id: 2,
-          name: 'Marie Martin',
+          name: 'Fatou Diop',
           userType: 'mentor',
           expertise: STUDY_FIELDS.find(field => field.id === 'data_science'),
           skills: [
@@ -213,7 +213,7 @@ const AIMatchmakingComponent = () => {
           id: 1,
           name: 'Lucas Petit',
           userType: 'student',
-          school: { name: 'Université Paris-Saclay' },
+          school: { name: 'Université Cheikh Anta Diop (UCAD)' },
           fieldOfStudy: STUDY_FIELDS.find(field => field.id === 'computer_science'),
           skills: [
             TECHNICAL_SKILLS.find(skill => skill.id === 'javascript'),

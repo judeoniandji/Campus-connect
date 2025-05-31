@@ -19,7 +19,8 @@ import {
   ListItemText,
   ListItemIcon,
   Tab,
-  Tabs
+  Tabs,
+  Alert
 } from '@mui/material';
 import {
   Edit as EditIcon,
@@ -31,7 +32,8 @@ import {
   Email as EmailIcon,
   Phone as PhoneIcon,
   LocationOn as LocationIcon,
-  Language as LanguageIcon
+  Language as LanguageIcon,
+  Description as DescriptionIcon
 } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 
@@ -58,16 +60,16 @@ const Profile = () => {
     // Simuler un appel API
     setTimeout(() => {
       const mockProfile = {
-        name: user?.name || 'Jean Dupont',
-        email: user?.email || 'jean.dupont@example.com',
-        phone: '+33 6 12 34 56 78',
-        location: 'Paris, France',
+        name: user?.name || 'Amadou Diallo',
+        email: user?.email || 'amadou.diallo@example.com',
+        phone: '+221 77 123 45 67',
+        location: 'Dakar, Sénégal',
         bio: 'Étudiant passionné par le développement web et l\'intelligence artificielle. Je recherche actuellement un stage de fin d\'études dans ces domaines.',
-        website: 'www.jeandupont.fr',
+        website: 'www.amadoudiallo.sn',
         education: [
           {
             id: 1,
-            institution: 'Université Paris-Saclay',
+            institution: 'Université Cheikh Anta Diop (UCAD)',
             degree: 'Master en Informatique',
             field: 'Intelligence Artificielle',
             startDate: '2023',
@@ -76,7 +78,7 @@ const Profile = () => {
           },
           {
             id: 2,
-            institution: 'Université de Lyon',
+            institution: 'Université Gaston Berger (UGB)',
             degree: 'Licence en Informatique',
             field: 'Développement logiciel',
             startDate: '2020',
@@ -167,207 +169,280 @@ const Profile = () => {
         </Box>
       ) : (
         <>
-          <Paper sx={{ p: 3, mb: 4 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Avatar 
-                  sx={{ width: 100, height: 100, mr: 3, bgcolor: 'primary.main' }}
-                >
-                  {profileData.name.charAt(0)}
-                </Avatar>
-                <Box>
-                  <Typography variant="h5" gutterBottom>
-                    {profileData.name}
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    {user?.user_type === 'student' ? 'Étudiant' : 
-                     user?.user_type === 'company' ? 'Entreprise' : 
-                     user?.user_type === 'university' ? 'Université' : 
-                     user?.user_type === 'mentor' ? 'Mentor' : 'Utilisateur'}
-                  </Typography>
-                </Box>
-              </Box>
-              <Button 
-                variant="contained" 
-                color="primary" 
-                startIcon={editMode ? <SaveIcon /> : <EditIcon />}
-                onClick={editMode ? handleSaveProfile : handleEditToggle}
-              >
-                {editMode ? 'Enregistrer' : 'Modifier'}
-              </Button>
-            </Box>
+          <Box sx={{ mb: 4 }}>
+            <Tabs value={tabValue} onChange={handleTabChange} aria-label="profile tabs" sx={{ mb: 2 }}>
+              <Tab label="Résumé" icon={<PersonIcon />} />
+              <Tab label="Formation" icon={<SchoolIcon />} />
+              <Tab label="Expérience" icon={<WorkIcon />} />
+            </Tabs>
             
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
-                <Box sx={{ mb: 2 }}>
-                  <Typography variant="subtitle1" gutterBottom>
-                    Informations personnelles
-                  </Typography>
-                  <Divider sx={{ mb: 2 }} />
+            {/* Onglet Résumé */}
+            {tabValue === 0 && (
+              <>
+                <Paper sx={{ p: 3, mb: 4 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Avatar
+                        sx={{ width: 64, height: 64, mr: 2 }}
+                        src="/static/images/avatar/user.jpg"
+                      >
+                        {profileData.name.charAt(0)}
+                      </Avatar>
+                      <Box>
+                        <Typography variant="h5">{profileData.name}</Typography>
+                        <Typography variant="body1" color="text.secondary">
+                          {profileData.email}
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Button
+                      variant={editMode ? "contained" : "outlined"}
+                      color={editMode ? "success" : "primary"}
+                      startIcon={editMode ? <SaveIcon /> : <EditIcon />}
+                      onClick={editMode ? handleSaveProfile : handleEditToggle}
+                    >
+                      {editMode ? "Enregistrer" : "Modifier"}
+                    </Button>
+                  </Box>
                   
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 1 }}>
-                        <EmailIcon sx={{ mr: 1, color: 'text.secondary' }} />
-                        {editMode ? (
-                          <TextField
-                            fullWidth
-                            label="Email"
-                            name="email"
-                            value={profileData.email}
-                            onChange={handleInputChange}
-                            variant="outlined"
-                            size="small"
-                          />
-                        ) : (
-                          <Typography variant="body1">
-                            {profileData.email}
+                  {editMode && (
+                    <Alert severity="info" sx={{ mb: 3 }}>
+                      Vous êtes en mode édition. Modifiez vos informations puis cliquez sur "Enregistrer" pour sauvegarder vos changements.
+                    </Alert>
+                  )}
+                  
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} md={4}>
+                      <Paper sx={{ p: 3, mb: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <Avatar 
+                          sx={{ width: 120, height: 120, mb: 2, fontSize: '3rem' }}
+                          src="/static/images/avatar/user.jpg"
+                        >
+                          {profileData.name.charAt(0)}
+                        </Avatar>
+                        
+                        <Typography variant="h5" gutterBottom>
+                          {profileData.name}
+                        </Typography>
+                        
+                        <Typography variant="body1" color="text.secondary" gutterBottom>
+                          Étudiant en informatique
+                        </Typography>
+                        
+                        <Divider sx={{ width: '100%', my: 2 }} />
+                        
+                        <Box sx={{ width: '100%' }}>
+                          <Typography variant="subtitle1" gutterBottom>
+                            Compétences
                           </Typography>
-                        )}
-                      </Box>
+                          
+                          {profileData.skills.slice(0, 5).map((skill) => (
+                            <Box key={skill.id} sx={{ mb: 1 }}>
+                              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+                                <Typography variant="body2">{skill.name}</Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                  {skill.level}/5
+                                </Typography>
+                              </Box>
+                              <Box sx={{ display: 'flex' }}>
+                                {renderSkillLevel(skill.level)}
+                              </Box>
+                            </Box>
+                          ))}
+                        </Box>
+                      </Paper>
+                      
+                      {!editMode && (
+                        <Paper sx={{ p: 3 }}>
+                          <Typography variant="subtitle1" gutterBottom>
+                            Contact
+                          </Typography>
+                          
+                          <List dense>
+                            <ListItem>
+                              <ListItemIcon>
+                                <EmailIcon />
+                              </ListItemIcon>
+                              <ListItemText 
+                                primary="Email" 
+                                secondary={profileData.email} 
+                              />
+                            </ListItem>
+                            <ListItem>
+                              <ListItemIcon>
+                                <PhoneIcon />
+                              </ListItemIcon>
+                              <ListItemText 
+                                primary="Téléphone" 
+                                secondary={profileData.phone || "Non renseigné"} 
+                              />
+                            </ListItem>
+                            <ListItem>
+                              <ListItemIcon>
+                                <LocationIcon />
+                              </ListItemIcon>
+                              <ListItemText 
+                                primary="Localisation" 
+                                secondary={profileData.location || "Non renseignée"} 
+                              />
+                            </ListItem>
+                            <ListItem>
+                              <ListItemIcon>
+                                <LanguageIcon />
+                              </ListItemIcon>
+                              <ListItemText 
+                                primary="Site web" 
+                                secondary={profileData.website || "Non renseigné"} 
+                              />
+                            </ListItem>
+                            <ListItem>
+                              <ListItemIcon>
+                                <DescriptionIcon />
+                              </ListItemIcon>
+                              <ListItemText 
+                                primary="Bio" 
+                                secondary={profileData.bio || "Non renseignée"} 
+                              />
+                            </ListItem>
+                          </List>
+                        </Paper>
+                      )}
                     </Grid>
                     
-                    <Grid item xs={12}>
-                      <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 1 }}>
-                        <PhoneIcon sx={{ mr: 1, color: 'text.secondary' }} />
-                        {editMode ? (
-                          <TextField
-                            fullWidth
-                            label="Téléphone"
-                            name="phone"
-                            value={profileData.phone}
-                            onChange={handleInputChange}
-                            variant="outlined"
-                            size="small"
-                          />
-                        ) : (
-                          <Typography variant="body1">
-                            {profileData.phone}
+                    <Grid item xs={12} md={8}>
+                      {editMode ? (
+                        <Paper sx={{ p: 3 }}>
+                          <Typography variant="h6" gutterBottom>
+                            Informations personnelles
                           </Typography>
-                        )}
-                      </Box>
-                    </Grid>
-                    
-                    <Grid item xs={12}>
-                      <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 1 }}>
-                        <LocationIcon sx={{ mr: 1, color: 'text.secondary' }} />
-                        {editMode ? (
-                          <TextField
-                            fullWidth
-                            label="Localisation"
-                            name="location"
-                            value={profileData.location}
-                            onChange={handleInputChange}
-                            variant="outlined"
-                            size="small"
-                          />
-                        ) : (
-                          <Typography variant="body1">
-                            {profileData.location}
-                          </Typography>
-                        )}
-                      </Box>
-                    </Grid>
-                    
-                    <Grid item xs={12}>
-                      <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 1 }}>
-                        <LanguageIcon sx={{ mr: 1, color: 'text.secondary' }} />
-                        {editMode ? (
-                          <TextField
-                            fullWidth
-                            label="Site web"
-                            name="website"
-                            value={profileData.website}
-                            onChange={handleInputChange}
-                            variant="outlined"
-                            size="small"
-                          />
-                        ) : (
-                          <Typography variant="body1">
-                            {profileData.website}
-                          </Typography>
-                        )}
-                      </Box>
+                          
+                          <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                              <TextField
+                                fullWidth
+                                label="Nom complet"
+                                name="name"
+                                value={profileData.name}
+                                onChange={handleInputChange}
+                                margin="normal"
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                              <TextField
+                                fullWidth
+                                label="Email"
+                                name="email"
+                                value={profileData.email}
+                                onChange={handleInputChange}
+                                margin="normal"
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                              <TextField
+                                fullWidth
+                                label="Téléphone"
+                                name="phone"
+                                value={profileData.phone}
+                                onChange={handleInputChange}
+                                margin="normal"
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                              <TextField
+                                fullWidth
+                                label="Localisation"
+                                name="location"
+                                value={profileData.location}
+                                onChange={handleInputChange}
+                                margin="normal"
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                              <TextField
+                                fullWidth
+                                label="Site web"
+                                name="website"
+                                value={profileData.website}
+                                onChange={handleInputChange}
+                                margin="normal"
+                              />
+                            </Grid>
+                            <Grid item xs={12}>
+                              <TextField
+                                fullWidth
+                                label="Bio"
+                                name="bio"
+                                value={profileData.bio}
+                                onChange={handleInputChange}
+                                margin="normal"
+                                multiline
+                                rows={4}
+                              />
+                            </Grid>
+                          </Grid>
+                        </Paper>
+                      ) : (
+                        <>
+                          <Paper sx={{ p: 3, mb: 3 }}>
+                            <Typography variant="h6" gutterBottom>
+                              À propos
+                            </Typography>
+                            <Typography variant="body1">
+                              {profileData.bio}
+                            </Typography>
+                          </Paper>
+                          
+                          <Paper sx={{ p: 3, mb: 3 }}>
+                            <Typography variant="h6" gutterBottom>
+                              Expérience
+                            </Typography>
+                            
+                            {profileData.experience.map((exp) => (
+                              <Box key={exp.id} sx={{ mb: 2 }}>
+                                <Typography variant="subtitle1">
+                                  {exp.position}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                  {exp.company} | {exp.startDate} - {exp.endDate}
+                                </Typography>
+                                <Typography variant="body2" sx={{ mt: 1 }}>
+                                  {exp.description}
+                                </Typography>
+                                {exp.id !== profileData.experience.length && (
+                                  <Divider sx={{ my: 2 }} />
+                                )}
+                              </Box>
+                            ))}
+                          </Paper>
+                          
+                          <Paper sx={{ p: 3 }}>
+                            <Typography variant="h6" gutterBottom>
+                              Formation
+                            </Typography>
+                            
+                            {profileData.education.map((edu) => (
+                              <Box key={edu.id} sx={{ mb: 2 }}>
+                                <Typography variant="subtitle1">
+                                  {edu.degree}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                  {edu.institution} | {edu.startDate} - {edu.endDate}
+                                </Typography>
+                                <Typography variant="body2" sx={{ mt: 1 }}>
+                                  {edu.description}
+                                </Typography>
+                                {edu.id !== profileData.education.length && (
+                                  <Divider sx={{ my: 2 }} />
+                                )}
+                              </Box>
+                            ))}
+                          </Paper>
+                        </>
+                      )}
                     </Grid>
                   </Grid>
-                </Box>
-              </Grid>
-              
-              <Grid item xs={12} md={6}>
-                <Box>
-                  <Typography variant="subtitle1" gutterBottom>
-                    À propos
-                  </Typography>
-                  <Divider sx={{ mb: 2 }} />
-                  
-                  {editMode ? (
-                    <TextField
-                      fullWidth
-                      label="Biographie"
-                      name="bio"
-                      value={profileData.bio}
-                      onChange={handleInputChange}
-                      variant="outlined"
-                      multiline
-                      rows={4}
-                    />
-                  ) : (
-                    <Typography variant="body1" paragraph>
-                      {profileData.bio}
-                    </Typography>
-                  )}
-                </Box>
-              </Grid>
-            </Grid>
-          </Paper>
-          
-          <Box sx={{ width: '100%', mb: 4 }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <Tabs 
-                value={tabValue} 
-                onChange={handleTabChange}
-                variant="scrollable"
-                scrollButtons="auto"
-              >
-                <Tab label="Compétences" />
-                <Tab label="Formation" />
-                <Tab label="Expérience" />
-              </Tabs>
-            </Box>
-            
-            {/* Onglet Compétences */}
-            {tabValue === 0 && (
-              <Paper sx={{ p: 3, mt: 2 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                  <Typography variant="h6">
-                    Compétences
-                  </Typography>
-                  {editMode && (
-                    <Button variant="outlined" size="small">
-                      Ajouter une compétence
-                    </Button>
-                  )}
-                </Box>
-                
-                <Grid container spacing={2}>
-                  {profileData.skills.map(skill => (
-                    <Grid item xs={12} sm={6} md={4} key={skill.id}>
-                      <Card variant="outlined">
-                        <CardContent>
-                          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <Typography variant="subtitle1">
-                              {skill.name}
-                            </Typography>
-                            <Box>
-                              {renderSkillLevel(skill.level)}
-                            </Box>
-                          </Box>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Paper>
+                </Paper>
+              </>
             )}
             
             {/* Onglet Formation */}

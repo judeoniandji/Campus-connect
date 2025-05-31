@@ -96,6 +96,11 @@ const Navigation = () => {
         text: 'Recherche d\'emploi',
         icon: <WorkIcon />,
         path: '/jobs'
+      },
+      {
+        text: 'Mes candidatures',
+        icon: <WorkIcon />,
+        path: '/my-applications'
       }
     ];
     
@@ -370,7 +375,7 @@ const Navigation = () => {
     {
       id: 1,
       title: 'Nouveau message',
-      content: 'Vous avez reçu un nouveau message de Jean Dupont.',
+      content: 'Vous avez reçu un nouveau message de Amadou Diallo.',
       time: '10:30'
     },
     {
@@ -581,7 +586,7 @@ const Navigation = () => {
         <MenuItem 
           onClick={() => {
             handleProfileMenuClose();
-            navigate(`/${userType}/profile`);
+            navigate(`/profile`);
           }}
         >
           <ListItemIcon>
@@ -592,7 +597,18 @@ const Navigation = () => {
         <MenuItem 
           onClick={() => {
             handleProfileMenuClose();
-            navigate(`/${userType}/settings`);
+            navigate(`/my-applications`);
+          }}
+        >
+          <ListItemIcon>
+            <WorkIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Mes candidatures</ListItemText>
+        </MenuItem>
+        <MenuItem 
+          onClick={() => {
+            handleProfileMenuClose();
+            navigate(`/settings`);
           }}
         >
           <ListItemIcon>

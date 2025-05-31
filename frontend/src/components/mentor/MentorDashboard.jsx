@@ -182,7 +182,7 @@ const MentorDashboard = () => {
                   <Avatar sx={{ bgcolor: 'primary.light' }}>JD</Avatar>
                 </ListItemIcon>
                 <ListItemText 
-                  primary="Session avec Jean Dupont" 
+                  primary="Session avec Amadou Diallo" 
                   secondary="Développement web - Aujourd'hui à 15:00" 
                 />
                 <Chip label="À venir" color="primary" size="small" />

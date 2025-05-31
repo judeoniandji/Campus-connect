@@ -211,7 +211,7 @@ const StudentDashboard = () => {
                   <MessageIcon color="primary" />
                 </ListItemIcon>
                 <ListItemText 
-                  primary="Nouveau message de Prof. Martin" 
+                  primary="Nouveau message de Prof. Diallo" 
                   secondary="À propos de votre projet final - Reçu il y a 2 heures" 
                 />
                 <Button variant="text" color="primary">

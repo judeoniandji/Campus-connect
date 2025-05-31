@@ -182,8 +182,8 @@ const AdminDashboard = () => {
                   <SchoolIcon />
                 </ListItemIcon>
                 <ListItemText 
-                  primary="Marie Dupont" 
-                  secondary="Email: marie@example.com - Type: Étudiant - Date: 21/03/2025" 
+                  primary="Fatou Diop" 
+                  secondary="Email: fatou.diop@example.com - Type: Étudiant - Date: 21/03/2025" 
                 />
               </ListItem>
               <Divider />

@@ -95,13 +95,13 @@ const JobDetail = () => {
           company_logo: '',
           company_rating: 4.2,
           company_reviews_count: 125,
-          location: 'Paris, France',
+          location: 'Dakar, Sénégal',
           remote_type: 'hybrid', // 'on_site', 'remote', 'hybrid'
-          salary_range: '45 000 € - 60 000 € par an',
+          salary_range: '1 500 000 - 2 500 000 FCFA par mois',
           contract_type: 'full_time',
           description: `
             <h3>À propos de TechCorp</h3>
-            <p>TechCorp est une entreprise innovante spécialisée dans le développement de solutions web et mobiles pour les entreprises du CAC 40. Nous recherchons un développeur Full Stack JavaScript pour rejoindre notre équipe parisienne.</p>
+            <p>TechCorp est une entreprise innovante spécialisée dans le développement de solutions web et mobiles pour les entreprises sénégalaises. Nous recherchons un développeur Full Stack JavaScript pour rejoindre notre équipe à Dakar.</p>
             
             <h3>Description du poste</h3>
             <p>En tant que Développeur Full Stack JavaScript, vous serez responsable de la conception, du développement et de la maintenance de nos applications web et mobiles. Vous travaillerez en étroite collaboration avec nos équipes de design, de produit et de backend pour créer des expériences utilisateur exceptionnelles.</p>
@@ -131,8 +131,8 @@ const JobDetail = () => {
             <ul>
               <li>Salaire compétitif</li>
               <li>Télétravail partiel (2 jours par semaine)</li>
-              <li>Mutuelle d'entreprise</li>
-              <li>Tickets restaurant</li>
+              <li>Assurance maladie</li>
+              <li>Prime de transport</li>
               <li>Formation continue</li>
               <li>Événements d'entreprise réguliers</li>
             </ul>
@@ -142,13 +142,13 @@ const JobDetail = () => {
           application_deadline: new Date(Date.now() + 25 * 24 * 60 * 60 * 1000).toISOString(),
           experience_level: 'mid_level',
           education_level: 'bachelor',
-          languages: ['Français', 'Anglais'],
+          languages: ['Français', 'Wolof', 'Anglais'],
           company_size: '50-250 employés',
           company_industry: 'Technologies de l\'information',
           similar_jobs: [
-            { id: 101, title: 'Développeur Frontend React', company_name: 'WebSolutions', location: 'Paris' },
-            { id: 102, title: 'Développeur Backend Node.js', company_name: 'DataTech', location: 'Lyon' },
-            { id: 103, title: 'Ingénieur Full Stack', company_name: 'InnovCorp', location: 'Bordeaux' }
+            { id: 101, title: 'Développeur Frontend React', company_name: 'WebSolutions', location: 'Dakar' },
+            { id: 102, title: 'Développeur Backend Node.js', company_name: 'DataTech', location: 'Saint-Louis' },
+            { id: 103, title: 'Ingénieur Full Stack', company_name: 'InnovCorp', location: 'Thiès' }
           ]
         };
         

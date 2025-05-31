@@ -33,6 +33,7 @@ import JobDetail from './pages/JobDetail';
 import JobMatching from './pages/JobMatching';
 import JobDetails from './pages/JobDetails'; 
 import JobInsights from './pages/JobInsights'; // Nouvelle page d'insights IA
+import MyApplications from './pages/MyApplications'; // Page de gestion des candidatures
 
 // Pages de mentorat
 import MentorSearch from './pages/MentorSearch';
@@ -103,6 +104,13 @@ function App() {
           <Route path="/jobs/senegal/:jobId" element={
             <ProtectedRoute allowedRoles={['student']}>
               <JobDetails />
+            </ProtectedRoute>
+          } />
+          
+          {/* Route pour la gestion des candidatures */}
+          <Route path="/my-applications" element={
+            <ProtectedRoute>
+              <MyApplications />
             </ProtectedRoute>
           } />
 

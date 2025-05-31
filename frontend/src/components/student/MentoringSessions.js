@@ -39,7 +39,7 @@ function MentoringSessions() {
     const mockSessions = [
       {
         id: 1,
-        mentorName: 'Marie Dupont',
+        mentorName: 'Fatou Diop',
         topic: 'Préparation aux entretiens',
         date: '2024-03-15T14:00:00',
         status: 'scheduled',
@@ -47,7 +47,7 @@ function MentoringSessions() {
       },
       {
         id: 2,
-        mentorName: 'Jean Martin',
+        mentorName: 'Mamadou Sow',
         topic: 'Orientation professionnelle',
         date: '2024-03-10T15:00:00',
         status: 'completed',

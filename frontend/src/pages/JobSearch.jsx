@@ -421,13 +421,13 @@ const JobSearch = () => {
               onChange={(e, newValue) => setSalaryRange(newValue)}
               valueLabelDisplay="auto"
               min={0}
-              max={100000}
-              step={1000}
-              valueLabelFormat={(value) => `${value.toLocaleString()} €`}
+              max={5000000}
+              step={50000}
+              valueLabelFormat={(value) => `${value.toLocaleString()} FCFA`}
             />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
-              <Typography variant="body2">{salaryRange[0].toLocaleString()} €</Typography>
-              <Typography variant="body2">{salaryRange[1].toLocaleString()} €</Typography>
+              <Typography variant="body2">{salaryRange[0].toLocaleString()} FCFA</Typography>
+              <Typography variant="body2">{salaryRange[1].toLocaleString()} FCFA</Typography>
             </Box>
           </Box>
         </AccordionDetails>
@@ -514,8 +514,8 @@ const JobSearch = () => {
         id: i + 1,
         title: ['Développeur Full Stack', 'Data Scientist', 'Chef de Projet IT', 'UX Designer', 'Ingénieur DevOps'][i % 5],
         company_name: ['TechCorp', 'DataSolutions', 'InnovSoft', 'DesignHub', 'CloudTech'][i % 5],
-        location: ['Paris', 'Lyon', 'Bordeaux', 'Toulouse', 'Lille'][i % 5],
-        salary_range: ['30 000 € - 40 000 €', '45 000 € - 55 000 €', '60 000 € - 70 000 €', '35 000 € - 45 000 €', '50 000 € - 65 000 €'][i % 5],
+        location: ['Dakar', 'Saint-Louis', 'Thiès', 'Ziguinchor', 'Kaolack'][i % 5],
+        salary_range: ['1 000 000 FCFA - 1 500 000 FCFA', '1 500 000 FCFA - 2 000 000 FCFA', '2 000 000 FCFA - 2 500 000 FCFA', '1 200 000 FCFA - 1 800 000 FCFA', '1 800 000 FCFA - 2 300 000 FCFA'][i % 5],
         contract_type: ['full_time', 'part_time', 'internship', 'apprenticeship', 'temporary'][i % 5],
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.',
         skills: [

@@ -12,10 +12,10 @@
                     <h1 class="display-4 fw-bold mb-4">Bienvenue sur CampusConnect</h1>
                     <p class="lead mb-4">La plateforme qui connecte les étudiants aux opportunités professionnelles et aux mentors de l'industrie.</p>
                     <div class="d-flex gap-3">
-                        <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-lg">
+                        <a href="{{ url_for('auth.register', next=request.path) }}" class="btn btn-light btn-lg">
                             S'inscrire gratuitement
                         </a>
-                        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg">
+                        <a href="{{ url_for('auth.login', next=request.path) }}" class="btn btn-outline-light btn-lg">
                             Se connecter
                         </a>
                     </div>

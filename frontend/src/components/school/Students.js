@@ -55,10 +55,10 @@ function Students() {
     const mockStudents = [
       {
         id: 1,
-        name: 'Marie Martin',
+        name: 'Fatou Diop',
         level: 'Master 2',
-        email: 'marie.martin@example.com',
-        phone: '+33 6 12 34 56 78',
+        email: 'fatou.diop@example.com',
+        phone: '+221 77 123 45 67',
         avatar: '/path/to/avatar1.jpg',
         status: 'active',
         progress: 75,
@@ -80,10 +80,10 @@ function Students() {
       },
       {
         id: 2,
-        name: 'Pierre Dubois',
+        name: 'Ousmane Ndiaye',
         level: 'Licence 3',
-        email: 'pierre.dubois@example.com',
-        phone: '+33 6 98 76 54 32',
+        email: 'ousmane.ndiaye@example.com',
+        phone: '+221 78 987 65 43',
         avatar: '/path/to/avatar2.jpg',
         status: 'active',
         progress: 60,

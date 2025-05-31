@@ -43,8 +43,8 @@ const Events = () => {
         {
           id: 1,
           title: 'Forum des métiers du numérique',
-          organizer: 'Université Paris-Saclay',
-          location: 'Campus de Saclay',
+          organizer: 'Université Cheikh Anta Diop (UCAD)',
+          location: 'Campus de Dakar',
           date: '2025-04-15',
           time: '10:00 - 18:00',
           description: 'Forum annuel des métiers du numérique avec la participation de grandes entreprises du secteur.',

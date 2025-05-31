@@ -212,7 +212,7 @@ const CompanyDashboard = () => {
           {
             id: 1,
             title: 'Développeur Full Stack',
-            location: 'Paris',
+            location: 'Dakar',
             type: 'job',
             status: 'active',
             applications_count: 12,
@@ -222,7 +222,7 @@ const CompanyDashboard = () => {
           {
             id: 2,
             title: 'Stage Marketing Digital',
-            location: 'Lyon',
+            location: 'Saint-Louis',
             type: 'internship',
             status: 'active',
             applications_count: 8,
@@ -232,7 +232,7 @@ const CompanyDashboard = () => {
           {
             id: 3,
             title: 'Data Analyst',
-            location: 'Toulouse',
+            location: 'Thiès',
             type: 'job',
             status: 'inactive',
             applications_count: 3,
@@ -244,7 +244,7 @@ const CompanyDashboard = () => {
         setCandidates([
           {
             id: 1,
-            name: 'Jean Dupont',
+            name: 'Amadou Diallo',
             avatar: '',
             job_title: 'Développeur Full Stack',
             applied_date: '2025-03-25',
@@ -253,7 +253,7 @@ const CompanyDashboard = () => {
           },
           {
             id: 2,
-            name: 'Marie Martin',
+            name: 'Fatou Diop',
             avatar: '',
             job_title: 'Développeur Full Stack',
             applied_date: '2025-03-23',

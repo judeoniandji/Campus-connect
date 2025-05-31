@@ -12,4 +12,4 @@
 
 # Configuration pour les fonctions serverless (optionnel)
 [functions]
-  directory = "../netlify/functions"
+  directory = "netlify/functions"

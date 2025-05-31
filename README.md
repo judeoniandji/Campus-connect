@@ -176,7 +176,42 @@ npm test
 
 ## Déploiement en production
 
-Pour déployer l'application en production :
+### Déploiement sur Render
+
+L'application est configurée pour être facilement déployée sur Render :
+
+1. **Créer un compte Render** : Inscrivez-vous sur [render.com](https://render.com) si ce n'est pas déjà fait
+
+2. **Déployer le backend** :
+   - Connectez-vous à votre compte Render
+   - Cliquez sur "New" puis "Web Service"
+   - Connectez votre dépôt GitHub/GitLab ou utilisez l'option "Public Git Repository"
+   - Entrez l'URL de votre dépôt Git
+   - Configurez le service avec les paramètres suivants :
+     - **Name**: `campus-connect-api`
+     - **Environment**: `Python 3`
+     - **Build Command**: `pip install -r requirements.txt`
+     - **Start Command**: `gunicorn run:app`
+   - Dans la section "Environment Variables", ajoutez toutes les variables d'environnement nécessaires :
+     - `FLASK_ENV`: `production`
+     - `SECRET_KEY`: (générez une clé sécurisée)
+     - `JWT_SECRET_KEY`: (générez une clé sécurisée)
+     - `FRONTEND_URL`: URL de votre frontend déployé (ex: `https://campus-connect-app.netlify.app`)
+   - Cliquez sur "Create Web Service"
+
+3. **Ajouter une base de données PostgreSQL** :
+   - Dans votre tableau de bord Render, cliquez sur "New" puis "PostgreSQL"
+   - Configurez votre base de données avec un nom et un utilisateur
+   - Une fois créée, allez dans les détails de votre base de données et copiez l'"Internal Database URL"
+   - Allez dans les paramètres de votre service web et ajoutez une variable d'environnement :
+     - `DATABASE_URL`: (collez l'URL interne de votre base de données)
+
+4. **Mettre à jour le frontend** :
+   - Dans votre projet frontend, mettez à jour la variable d'environnement `REACT_APP_API_URL` pour qu'elle pointe vers l'URL de votre backend déployé (ex: `https://campus-connect-api.onrender.com/api`)
+
+### Déploiement manuel
+
+Pour déployer l'application manuellement en production :
 
 1. Modifiez le fichier `.env` avec les paramètres de production
 2. Pour utiliser PostgreSQL en production, ajoutez la variable DATABASE_URL dans votre fichier .env :

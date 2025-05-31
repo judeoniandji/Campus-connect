@@ -49,19 +49,35 @@ def create_app(config_name='default'):
     configure_logging(app)
     
     # Configuration CORS améliorée
-    cors = CORS(app)
+    frontend_url = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
+    cors = CORS(app, resources={
+        r"/*": {
+            "origins": [frontend_url, "https://campus-connect-app.netlify.app", "http://localhost:3000", "http://localhost:3002"],
+            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+            "allow_headers": ["Content-Type", "Authorization", "X-Requested-With"],
+            "supports_credentials": True
+        }
+    })
     app.config['CORS_HEADERS'] = 'Content-Type'
     
     # Ajouter des en-têtes CORS à toutes les réponses
     @app.after_request
     def after_request(response):
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        # Utiliser l'origine de la requête si elle est autorisée, sinon utiliser le frontend_url par défaut
+        origin = request.headers.get('Origin')
+        allowed_origins = [frontend_url, "https://campus-connect-app.netlify.app", "http://localhost:3000", "http://localhost:3002"]
+        
+        if origin in allowed_origins:
+            response.headers.add('Access-Control-Allow-Origin', origin)
+        else:
+            response.headers.add('Access-Control-Allow-Origin', frontend_url)
+            
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With')
         response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
         response.headers.add('Access-Control-Allow-Credentials', 'true')
         return response
         
-    app.logger.info("Configuration CORS appliquée avec succès")
+    app.logger.info("Configuration CORS appliquée avec succès pour: " + frontend_url)
 
     # Initialisation des extensions
     try:

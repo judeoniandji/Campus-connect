@@ -168,7 +168,7 @@ const CompanyDashboard = () => {
                   <PersonIcon color="primary" />
                 </ListItemIcon>
                 <ListItemText 
-                  primary="Marie Dupont" 
+                  primary="Fatou Diop" 
                   secondary="Développeur Full-Stack - Candidature reçue il y a 2 jours" 
                 />
                 <Box>
@@ -186,7 +186,7 @@ const CompanyDashboard = () => {
                   <PersonIcon color="primary" />
                 </ListItemIcon>
                 <ListItemText 
-                  primary="Jean Martin" 
+                  primary="Mamadou Sow" 
                   secondary="Data Scientist - Candidature reçue il y a 3 jours" 
                 />
                 <Box>
@@ -230,7 +230,7 @@ const CompanyDashboard = () => {
                   <EventIcon color="primary" />
                 </ListItemIcon>
                 <ListItemText 
-                  primary="Forum des métiers - Université Paris Tech" 
+                  primary="Forum des métiers - Université Cheikh Anta Diop" 
                   secondary="15 avril 2025 - 10h00 à 17h00" 
                 />
                 <Button variant="text" color="primary">
@@ -256,7 +256,7 @@ const CompanyDashboard = () => {
                   <EventIcon color="primary" />
                 </ListItemIcon>
                 <ListItemText 
-                  primary="Salon de l'emploi - Paris Expo" 
+                  primary="Salon de l'emploi - Dakar Expo" 
                   secondary="5 mai 2025 - 9h00 à 19h00" 
                 />
                 <Button variant="text" color="primary">

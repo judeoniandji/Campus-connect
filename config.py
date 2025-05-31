@@ -21,7 +21,12 @@ class Config:
         print("Définissez SECRET_KEY dans votre fichier .env pour la sécurité.")
     
     # Database
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
+    # Render utilise le préfixe 'postgres://' mais SQLAlchemy a besoin de 'postgresql://'
+    database_url = os.environ.get('DATABASE_URL')
+    if database_url and database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    
+    SQLALCHEMY_DATABASE_URI = database_url or 'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # Upload

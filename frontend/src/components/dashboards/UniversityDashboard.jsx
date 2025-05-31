@@ -648,7 +648,7 @@ const UniversityDashboard = () => {
                   <Avatar>M</Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary="Marie Dupont"
+                  primary="Fatou Diop"
                   secondary={
                     <>
                       <Typography variant="body2" component="span" color="text.primary">
@@ -674,7 +674,7 @@ const UniversityDashboard = () => {
                   <Avatar>T</Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary="Thomas Martin"
+                  primary="Mamadou Sow"
                   secondary={
                     <>
                       <Typography variant="body2" component="span" color="text.primary">

@@ -1,4 +1,4 @@
-# Script PowerShell pour démarrer l'application Flask et React en même temps
+# Script PowerShell pour démarrer l'application Flask et React en même temps avec des ports alternatifs
 
 # Fonction pour vérifier si un processus est en cours d'exécution sur un port spécifique
 function Test-PortInUse {
@@ -11,31 +11,31 @@ function Test-PortInUse {
 }
 
 # Vérifier si les ports sont déjà utilisés
-if (Test-PortInUse -Port 5000) {
-    Write-Host "Le port 5000 est déjà utilisé. Veuillez arrêter le processus qui l'utilise." -ForegroundColor Red
+if (Test-PortInUse -Port 5001) {
+    Write-Host "Le port 5001 est déjà utilisé. Veuillez arrêter le processus qui l'utilise." -ForegroundColor Red
     exit 1
 }
 
-if (Test-PortInUse -Port 3001) {
-    Write-Host "Le port 3001 est déjà utilisé. Veuillez arrêter le processus qui l'utilise." -ForegroundColor Red
+if (Test-PortInUse -Port 3002) {
+    Write-Host "Le port 3002 est déjà utilisé. Veuillez arrêter le processus qui l'utilise." -ForegroundColor Red
     exit 1
 }
 
 # Démarrer le backend Flask dans un nouveau processus
-Write-Host "Démarrage du backend Flask..." -ForegroundColor Green
-Start-Process -FilePath "powershell" -ArgumentList "-Command", "cd '$PSScriptRoot'; python run.py" -NoNewWindow
+Write-Host "Démarrage du backend Flask sur le port 5001..." -ForegroundColor Green
+Start-Process -FilePath "powershell" -ArgumentList "-Command", "cd '$PSScriptRoot'; python run.py --port 5001" -NoNewWindow
 
 # Attendre que le serveur Flask démarre
 Write-Host "Attente du démarrage du serveur Flask..." -ForegroundColor Yellow
 Start-Sleep -Seconds 3
 
 # Démarrer le frontend React dans un nouveau processus
-Write-Host "Démarrage du frontend React..." -ForegroundColor Green
-Start-Process -FilePath "powershell" -ArgumentList "-Command", "cd '$PSScriptRoot\frontend'; npm start -- --port 3001" -NoNewWindow
+Write-Host "Démarrage du frontend React sur le port 3002..." -ForegroundColor Green
+Start-Process -FilePath "powershell" -ArgumentList "-Command", "cd '$PSScriptRoot\frontend'; set PORT=3002 && npm start" -NoNewWindow
 
 Write-Host "Application démarrée !" -ForegroundColor Cyan
-Write-Host "Backend: http://localhost:5000" -ForegroundColor Cyan
-Write-Host "Frontend: http://localhost:3001" -ForegroundColor Cyan
+Write-Host "Backend: http://localhost:5001" -ForegroundColor Cyan
+Write-Host "Frontend: http://localhost:3002" -ForegroundColor Cyan
 Write-Host "Appuyez sur Ctrl+C pour arrêter les serveurs." -ForegroundColor Cyan
 
 # Garder le script en cours d'exécution

@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-// Configuration simplifiée de l'API
-const API_URL = 'http://localhost:5000';
+// Configuration de l'API
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+console.log('API URL:', API_URL);
 
 const api = axios.create({
   baseURL: API_URL,
@@ -14,13 +15,70 @@ const api = axios.create({
 // Intercepteur pour ajouter le token aux requêtes
 api.interceptors.request.use(
   (config) => {
+    // Utiliser le token du localStorage si disponible
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    
+    // Activer l'envoi des cookies avec les requêtes
+    config.withCredentials = true;
+    
+    console.log('API Request:', {
+      url: `${config.baseURL}${config.url}`,
+      method: config.method,
+      headers: config.headers
+    });
+    
     return config;
   },
   (error) => {
+    console.error('API Request Error:', error);
+    return Promise.reject(error);
+  }
+);
+
+// Intercepteur pour gérer les réponses et les erreurs
+api.interceptors.response.use(
+  (response) => {
+    console.log('API Response:', {
+      status: response.status,
+      url: `${response.config.baseURL}${response.config.url}`,
+      data: response.data
+    });
+    return response;
+  },
+  async (error) => {
+    console.error('API Response Error:', {
+      status: error.response?.status,
+      url: error.config ? `${error.config.baseURL}${error.config.url}` : 'Unknown URL',
+      data: error.response?.data,
+      message: error.message
+    });
+
+    // Gérer les erreurs 401 (non autorisé)
+    if (error.response && error.response.status === 401 && !error.config._retry) {
+      error.config._retry = true;
+      try {
+        // Essayer de rafraîchir le token
+        const refreshResponse = await api.post('/api/auth/refresh');
+        const newToken = refreshResponse.data.token;
+        
+        if (newToken) {
+          localStorage.setItem('token', newToken);
+          // Mettre à jour le header d'autorisation avec le nouveau token
+          error.config.headers.Authorization = `Bearer ${newToken}`;
+          // Réessayer la requête originale
+          return api(error.config);
+        }
+      } catch (refreshError) {
+        console.error('Token refresh failed:', refreshError);
+        // Rediriger vers la page de connexion en cas d'échec
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
+    }
+    
     return Promise.reject(error);
   }
 );

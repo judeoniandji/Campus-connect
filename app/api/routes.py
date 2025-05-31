@@ -20,8 +20,19 @@ def api_docs():
             'events': '/api/events',
             'applications': '/api/applications',
             'messages': '/api/messages',
-            'profile': '/api/profile'
+            'profile': '/api/profile',
+            'health': '/api/health'
         }
+    })
+
+# Health check endpoint
+@bp.route('/health')
+def health_check():
+    return jsonify({
+        'status': 'ok',
+        'timestamp': datetime.now().isoformat(),
+        'service': 'CampusConnect API',
+        'version': '1.0'
     })
 
 # Jobs API

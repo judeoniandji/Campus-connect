@@ -195,7 +195,7 @@ const SchoolDashboard = () => {
                 </ListItemIcon>
                 <ListItemText 
                   primary="Conférence sur l'IA" 
-                  secondary="22 avril 2025 - Intervenant: Dr. Martin, Google Research" 
+                  secondary="22 avril 2025 - Intervenant: Dr. Diop, Google Research" 
                 />
                 <Button variant="text" color="primary">
                   Détails

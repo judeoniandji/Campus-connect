@@ -33,10 +33,10 @@ import { useSelector, useDispatch } from 'react-redux';
 
 function Profile() {
   const [profile, setProfile] = useState({
-    firstName: 'Jean',
-    lastName: 'Dupont',
-    email: 'jean.dupont@example.com',
-    phone: '+33 6 12 34 56 78',
+    firstName: 'Amadou',
+    lastName: 'Diallo',
+    email: 'amadou.diallo@example.com',
+    phone: '+221 77 123 45 67',
     school: 'École Supérieure de Technologie',
     level: 'Master 2',
     major: 'Développement Web',

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusConnect - Plateforme de mise en relation étudiants-entreprises</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 20px;
+        }
+        .job-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .job-title {
+            font-weight: 600;
+            color: #1976d2;
+        }
+        .company-name {
+            color: #555;
+            font-weight: 500;
+        }
+        .job-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 10px 0;
+        }
+        .job-detail {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .job-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: #1976d2 !important;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">CampusConnect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="nav-home">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="nav-jobs">Offres d'emploi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="nav-profile">Profil</a>
+                    </li>
+                </ul>
+                <div id="auth-buttons">
+                    <button class="btn btn-outline-primary me-2" id="login-btn">Connexion</button>
+                    <button class="btn btn-primary" id="register-btn">Inscription</button>
+                </div>
+                <div id="user-info" class="hidden">
+                    <span class="me-2" id="user-name"></span>
+                    <button class="btn btn-outline-danger" id="logout-btn">Déconnexion</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Page d'accueil -->
+        <div id="home-page">
+            <div class="row">
+                <div class="col-md-12 text-center mb-4">
+                    <h1>Bienvenue sur CampusConnect</h1>
+                    <p class="lead">La plateforme qui connecte les étudiants et les entreprises</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">Étudiants</h3>
+                            <p class="card-text">Trouvez des stages, emplois et événements professionnels adaptés à votre profil.</p>
+                            <button class="btn btn-primary">Découvrir</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">Entreprises</h3>
+                            <p class="card-text">Publiez vos offres et trouvez les talents qui correspondent à vos besoins.</p>
+                            <button class="btn btn-primary">Découvrir</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">Universités</h3>
+                            <p class="card-text">Facilitez l'insertion professionnelle de vos étudiants et développez vos partenariats.</p>
+                            <button class="btn btn-primary">Découvrir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page de connexion -->
+        <div id="login-page" class="hidden">
+            <div class="login-form">
+                <h2 class="text-center mb-4">Connexion</h2>
+                <form id="login-form">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mot de passe</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Se connecter</button>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="#" id="forgot-password">Mot de passe oublié ?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Page des offres d'emploi -->
+        <div id="jobs-page" class="hidden">
+            <h2 class="mb-4">Offres d'emploi et stages</h2>
+            <div class="row mb-4">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Rechercher par titre, entreprise, compétence..." id="job-search">
+                        <button class="btn btn-primary" id="search-btn">Rechercher</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select" id="job-filter">
+                        <option value="all">Tous les types</option>
+                        <option value="cdi">CDI</option>
+                        <option value="cdd">CDD</option>
+                        <option value="stage">Stage</option>
+                        <option value="alternance">Alternance</option>
+                    </select>
+                </div>
+            </div>
+            <div id="jobs-container">
+                <!-- Les offres d'emploi seront chargées ici dynamiquement -->
+            </div>
+        </div>
+
+        <!-- Page de profil -->
+        <div id="profile-page" class="hidden">
+            <h2 class="mb-4">Mon profil</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Photo de profil">
+                            <h3 id="profile-name">Nom de l'utilisateur</h3>
+                            <p id="profile-title" class="text-muted">Titre professionnel</p>
+                            <button class="btn btn-outline-primary">Modifier le profil</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h4>Informations personnelles</h4>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <p id="profile-email">email@example.com</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Téléphone</label>
+                                <p id="profile-phone">+33 6 12 34 56 78</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Localisation</label>
+                                <p id="profile-location">Paris, France</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>Mes candidatures</h4>
+                            <div id="applications-container">
+                                <p>Aucune candidature pour le moment.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Configuration de l'API
+        const API_URL = 'http://localhost:5000/api';
+        
+        // État de l'application
+        let currentUser = null;
+        let jobs = [];
+        
+        // Éléments DOM
+        const homePage = document.getElementById('home-page');
+        const loginPage = document.getElementById('login-page');
+        const jobsPage = document.getElementById('jobs-page');
+        const profilePage = document.getElementById('profile-page');
+        const jobsContainer = document.getElementById('jobs-container');
+        const authButtons = document.getElementById('auth-buttons');
+        const userInfo = document.getElementById('user-info');
+        const userName = document.getElementById('user-name');
+        
+        // Navigation
+        document.getElementById('nav-home').addEventListener('click', showHomePage);
+        document.getElementById('nav-jobs').addEventListener('click', showJobsPage);
+        document.getElementById('nav-profile').addEventListener('click', function() {
+            if (currentUser) {
+                showProfilePage();
+            } else {
+                showLoginPage();
+            }
+        });
+        
+        document.getElementById('login-btn').addEventListener('click', showLoginPage);
+        document.getElementById('register-btn').addEventListener('click', () => alert('Fonctionnalité d\'inscription à venir !'));
+        document.getElementById('logout-btn').addEventListener('click', logout);
+        
+        // Formulaire de connexion
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            login();
+        });
+        
+        // Recherche d'emplois
+        document.getElementById('search-btn').addEventListener('click', searchJobs);
+        
+        // Fonctions de navigation
+        function showHomePage() {
+            hideAllPages();
+            homePage.classList.remove('hidden');
+        }
+        
+        function showLoginPage() {
+            hideAllPages();
+            loginPage.classList.remove('hidden');
+        }
+        
+        function showJobsPage() {
+            hideAllPages();
+            jobsPage.classList.remove('hidden');
+            loadJobs();
+        }
+        
+        function showProfilePage() {
+            hideAllPages();
+            profilePage.classList.remove('hidden');
+            updateProfileInfo();
+        }
+        
+        function hideAllPages() {
+            homePage.classList.add('hidden');
+            loginPage.classList.add('hidden');
+            jobsPage.classList.add('hidden');
+            profilePage.classList.add('hidden');
+        }
+        
+        // Fonctions d'API
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentUser = data.user;
+                    localStorage.setItem('token', data.token);
+                    updateAuthUI();
+                    showHomePage();
+                } else {
+                    alert('Échec de la connexion. Veuillez vérifier vos identifiants.');
+                }
+            } catch (error) {
+                console.error('Erreur de connexion:', error);
+                // Pour la démo, simulons une connexion réussie
+                currentUser = {
+                    id: 1,
+                    email: document.getElementById('email').value,
+                    name: 'Utilisateur Test'
+                };
+                localStorage.setItem('token', 'fake_token_for_demo');
+                updateAuthUI();
+                showHomePage();
+            }
+        }
+        
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('token');
+            updateAuthUI();
+            showHomePage();
+        }
+        
+        async function loadJobs() {
+            try {
+                const response = await fetch(`${API_URL}/jobs`);
+                const data = await response.json();
+                jobs = data.jobs;
+                renderJobs();
+            } catch (error) {
+                console.error('Erreur lors du chargement des offres:', error);
+                // Pour la démo, chargeons des données factices
+                jobs = [
+                    {
+                        id: 1,
+                        title: 'Développeur Full Stack',
+                        company_name: 'Tech Solutions',
+                        location: 'Paris',
+                        type: 'CDI',
+                        salary: '45000-55000€',
+                        description: 'Nous recherchons un développeur Full Stack expérimenté...',
+                        posted_date: '2025-05-10T10:00:00Z'
+                    },
+                    {
+                        id: 2,
+                        title: 'Data Scientist',
+                        company_name: 'DataCorp',
+                        location: 'Lyon',
+                        type: 'CDI',
+                        salary: '50000-60000€',
+                        description: 'Rejoignez notre équipe de data scientists...',
+                        posted_date: '2025-05-12T14:30:00Z'
+                    },
+                    {
+                        id: 3,
+                        title: 'Stage Développement Mobile',
+                        company_name: 'MobileApps',
+                        location: 'Bordeaux',
+                        type: 'Stage',
+                        salary: '800-1000€',
+                        description: 'Stage de 6 mois en développement d\'applications mobiles...',
+                        posted_date: '2025-05-15T09:15:00Z'
+                    }
+                ];
+                renderJobs();
+            }
+        }
+        
+        function searchJobs() {
+            const searchTerm = document.getElementById('job-search').value.toLowerCase();
+            const filter = document.getElementById('job-filter').value;
+            
+            const filteredJobs = jobs.filter(job => {
+                const matchesSearch = 
+                    job.title.toLowerCase().includes(searchTerm) ||
+                    job.company_name.toLowerCase().includes(searchTerm) ||
+                    job.description.toLowerCase().includes(searchTerm);
+                
+                const matchesFilter = filter === 'all' || job.type.toLowerCase() === filter;
+                
+                return matchesSearch && matchesFilter;
+            });
+            
+            renderJobs(filteredJobs);
+        }
+        
+        function renderJobs(jobsToRender = jobs) {
+            jobsContainer.innerHTML = '';
+            
+            if (jobsToRender.length === 0) {
+                jobsContainer.innerHTML = '<p class="text-center">Aucune offre ne correspond à votre recherche.</p>';
+                return;
+            }
+            
+            jobsToRender.forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.className = 'job-card';
+                
+                const postedDate = new Date(job.posted_date);
+                const formattedDate = new Intl.DateTimeFormat('fr-FR', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                }).format(postedDate);
+                
+                jobCard.innerHTML = `
+                    <h3 class="job-title">${job.title}</h3>
+                    <h4 class="company-name">${job.company_name}</h4>
+                    <div class="job-details">
+                        <div class="job-detail">
+                            <i class="bi bi-geo-alt"></i>
+                            ${job.location}
+                        </div>
+                        <div class="job-detail">
+                            <i class="bi bi-briefcase"></i>
+                            ${job.type}
+                        </div>
+                        <div class="job-detail">
+                            <i class="bi bi-cash"></i>
+                            ${job.salary}
+                        </div>
+                        <div class="job-detail">
+                            <i class="bi bi-calendar"></i>
+                            Publié le ${formattedDate}
+                        </div>
+                    </div>
+                    <p>${job.description}</p>
+                    <div class="job-actions">
+                        <button class="btn btn-primary" onclick="applyForJob(${job.id})">Postuler</button>
+                        <button class="btn btn-outline-primary" onclick="saveJob(${job.id})">Sauvegarder</button>
+                    </div>
+                `;
+                
+                jobsContainer.appendChild(jobCard);
+            });
+        }
+        
+        function updateAuthUI() {
+            if (currentUser) {
+                authButtons.classList.add('hidden');
+                userInfo.classList.remove('hidden');
+                userName.textContent = currentUser.name || currentUser.email;
+            } else {
+                authButtons.classList.remove('hidden');
+                userInfo.classList.add('hidden');
+            }
+        }
+        
+        function updateProfileInfo() {
+            if (currentUser) {
+                document.getElementById('profile-name').textContent = currentUser.name || 'Utilisateur';
+                document.getElementById('profile-title').textContent = currentUser.title || 'Titre non défini';
+                document.getElementById('profile-email').textContent = currentUser.email;
+                document.getElementById('profile-phone').textContent = currentUser.phone || 'Non renseigné';
+                document.getElementById('profile-location').textContent = currentUser.location || 'Non renseigné';
+            }
+        }
+        
+        // Fonctions pour les offres d'emploi
+        function applyForJob(jobId) {
+            if (!currentUser) {
+                alert('Veuillez vous connecter pour postuler à cette offre.');
+                showLoginPage();
+                return;
+            }
+            
+            alert(`Vous avez postulé à l'offre #${jobId} avec succès !`);
+        }
+        
+        function saveJob(jobId) {
+            if (!currentUser) {
+                alert('Veuillez vous connecter pour sauvegarder cette offre.');
+                showLoginPage();
+                return;
+            }
+            
+            alert(`Offre #${jobId} sauvegardée dans vos favoris !`);
+        }
+        
+        // Initialisation
+        function init() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                // Simuler un utilisateur connecté pour la démo
+                currentUser = {
+                    id: 1,
+                    email: 'test@example.com',
+                    name: 'Utilisateur Test'
+                };
+                updateAuthUI();
+            }
+            
+            showHomePage();
+        }
+        
+        // Démarrer l'application
+        init();
+    </script>
+</body>
+</html>
