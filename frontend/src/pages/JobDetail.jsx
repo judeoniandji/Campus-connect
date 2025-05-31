@@ -80,26 +80,32 @@ const JobDetail = () => {
   // Charger les détails de l'offre d'emploi
   useEffect(() => {
     const fetchJobDetail = async () => {
+      setLoading(true);
+      
       try {
-        setLoading(true);
+        // Essayer de récupérer les données réelles depuis l'API
+        let data;
         
-        // En production, utiliser cette ligne pour récupérer les données réelles
-        // const data = await jobService.getJobById(jobId);
-        
-        // Pour le développement, utiliser des données simulées
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        const data = {
-          id: jobId,
-          title: 'Développeur Full Stack JavaScript',
-          company_name: 'TechCorp',
-          company_logo: '',
-          company_rating: 4.2,
-          company_reviews_count: 125,
-          location: 'Dakar, Sénégal',
-          remote_type: 'hybrid', // 'on_site', 'remote', 'hybrid'
-          salary_range: '1 500 000 - 2 500 000 FCFA par mois',
-          contract_type: 'full_time',
-          description: `
+        try {
+          data = await jobService.getJobById(jobId);
+          if (!data) {
+            throw new Error('Aucune donnée reçue de l\'API');
+          }
+        } catch (apiError) {
+          console.error('Erreur lors de la récupération des données depuis l\'API:', apiError);
+          // Utiliser des données simulées en cas d'erreur
+          data = {
+            id: jobId,
+            title: 'Développeur Full Stack JavaScript',
+            company_name: 'TechCorp',
+            company_logo: '',
+            company_rating: 4.2,
+            company_reviews_count: 125,
+            location: 'Dakar, Sénégal',
+            remote_type: 'hybrid',
+            salary_range: '1 500 000 - 2 500 000 FCFA par mois',
+            contract_type: 'full_time',
+            description: `
             <h3>À propos de TechCorp</h3>
             <p>TechCorp est une entreprise innovante spécialisée dans le développement de solutions web et mobiles pour les entreprises sénégalaises. Nous recherchons un développeur Full Stack JavaScript pour rejoindre notre équipe à Dakar.</p>
             
@@ -137,20 +143,21 @@ const JobDetail = () => {
               <li>Événements d'entreprise réguliers</li>
             </ul>
           `,
-          skills: ['JavaScript', 'React', 'Node.js', 'Express', 'MongoDB', 'HTML5', 'CSS3'],
-          published_date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-          application_deadline: new Date(Date.now() + 25 * 24 * 60 * 60 * 1000).toISOString(),
-          experience_level: 'mid_level',
-          education_level: 'bachelor',
-          languages: ['Français', 'Wolof', 'Anglais'],
-          company_size: '50-250 employés',
-          company_industry: 'Technologies de l\'information',
-          similar_jobs: [
-            { id: 101, title: 'Développeur Frontend React', company_name: 'WebSolutions', location: 'Dakar' },
-            { id: 102, title: 'Développeur Backend Node.js', company_name: 'DataTech', location: 'Saint-Louis' },
-            { id: 103, title: 'Ingénieur Full Stack', company_name: 'InnovCorp', location: 'Thiès' }
-          ]
-        };
+            skills: ['JavaScript', 'React', 'Node.js', 'Express', 'MongoDB', 'HTML5', 'CSS3'],
+            published_date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+            application_deadline: new Date(Date.now() + 25 * 24 * 60 * 60 * 1000).toISOString(),
+            experience_level: 'mid_level',
+            education_level: 'bachelor',
+            languages: ['Français', 'Wolof', 'Anglais'],
+            company_size: '50-250 employés',
+            company_industry: 'Technologies de l\'information',
+            similar_jobs: [
+              { id: 101, title: 'Développeur Frontend React', company_name: 'WebSolutions', location: 'Dakar' },
+              { id: 102, title: 'Développeur Backend Node.js', company_name: 'DataTech', location: 'Saint-Louis' },
+              { id: 103, title: 'Ingénieur Full Stack', company_name: 'InnovCorp', location: 'Thiès' }
+            ]
+          };
+        }
         
         setJob(data);
         

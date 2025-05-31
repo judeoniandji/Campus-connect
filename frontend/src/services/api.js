@@ -1,7 +1,7 @@
 import axios from 'axios';
+import { API_URL } from '../config';
 
 // Configuration de l'API
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 console.log('API URL:', API_URL);
 
 const api = axios.create({
@@ -99,39 +99,39 @@ export const authService = {
   // Méthode de connexion avec HTTP Basic Auth
   login: (credentials) => {
     return api.post(
-      '/api/auth/login', 
+      '/login', 
       {}, 
       createBasicAuthHeader(credentials.email, credentials.password)
     );
   },
   
   // Méthode d'inscription standard
-  register: (userData) => api.post('/api/auth/register', userData),
+  register: (userData) => api.post('/register', userData),
   
   // Méthodes d'authentification sociale
-  googleAuth: (tokenData) => api.post('/api/auth/social/google', tokenData),
-  facebookAuth: (tokenData) => api.post('/api/auth/social/facebook', tokenData),
+  googleAuth: (tokenData) => api.post('/auth/social/google', tokenData),
+  facebookAuth: (tokenData) => api.post('/auth/social/facebook', tokenData),
   
   // Méthodes pour obtenir les URLs d'authentification
   getGoogleAuthUrl: () => api.get('/login/google'),
   getFacebookAuthUrl: () => api.get('/login/facebook'),
   
   // Autres méthodes d'authentification
-  forgotPassword: (email) => api.post('/api/auth/forgot-password', { email }),
-  resetPassword: (token, password) => api.post('/api/auth/reset-password', { token, password }),
-  logout: () => api.post('/api/auth/logout'),
-  getProfile: () => api.get('/api/auth/profile'),
-  updateProfile: (profileData) => api.put('/api/auth/profile', profileData),
+  forgotPassword: (email) => api.post('/auth/forgot-password', { email }),
+  resetPassword: (token, password) => api.post('/auth/reset-password', { token, password }),
+  logout: () => api.post('/logout'),
+  getProfile: () => api.get('/profile'),
+  updateProfile: (profileData) => api.put('/profile', profileData),
 };
 
 // Services des offres d'emploi
 export const jobsService = {
-  getJobs: (params) => api.get('/api/jobs', { params }),
-  getJob: (id) => api.get(`/api/jobs/${id}`),
-  createJob: (jobData) => api.post('/api/jobs', jobData),
-  updateJob: (id, jobData) => api.put(`/api/jobs/${id}`, jobData),
-  deleteJob: (id) => api.delete(`/api/jobs/${id}`),
-  applyToJob: (id) => api.post(`/api/jobs/${id}/apply`),
+  getJobs: (params) => api.get('/jobs', { params }),
+  getJob: (id) => api.get(`/jobs/${id}`),
+  createJob: (jobData) => api.post('/jobs', jobData),
+  updateJob: (id, jobData) => api.put(`/jobs/${id}`, jobData),
+  deleteJob: (id) => api.delete(`/jobs/${id}`),
+  applyToJob: (id) => api.post(`/jobs/${id}/apply`),
 };
 
 // Services des événements

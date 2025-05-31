@@ -37,7 +37,7 @@ import {
 } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { getSenegalJobs } from '../api/senegal';  // Assurez-vous que cette API existe
+import { jobService } from '../api/jobs';
 import { submitJobApplication } from '../api/applications';
 
 const Jobs = () => {
@@ -92,9 +92,13 @@ const Jobs = () => {
       setLoading(true);
       try {
         // Utiliser l'API réelle si disponible, sinon simuler
-        const response = await getSenegalJobs();
-        if (response && response.status === 'success') {
-          setJobs(response.data);
+        const response = await jobService.getJobs(1, {
+          field: fieldFilter,
+          location: locationFilter,
+          search: searchTerm
+        });
+        if (response && Array.isArray(response)) {
+          setJobs(response);
         } else {
           // Données simulées en cas d'échec de l'API
           setJobs([

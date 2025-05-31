@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { API_URL } from '../config';
 
 // Définition de l'URL de base de l'API
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/auth';
+const API_BASE_URL = API_URL;
 
 console.log('API Base URL:', API_BASE_URL);
 
@@ -57,8 +58,8 @@ api.interceptors.response.use(
             if (status === 401 && !error.config._retry) {
                 error.config._retry = true;
                 try {
-                    // Le refresh token est maintenant envoyé automatiquement via les cookies
-                    const response = await axios.post(`${API_BASE_URL}/refresh`, {}, {
+                    // Essayer de rafraîchir le token
+                    const refreshResponse = await api.post('/refresh', {}, {
                         withCredentials: true
                     });
                     

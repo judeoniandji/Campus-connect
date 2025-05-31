@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const API_URL = '/api';
+import { API_URL } from '../config';
 
 const messageService = {
   // Récupérer toutes les conversations de l'utilisateur
