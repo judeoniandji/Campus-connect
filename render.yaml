@@ -2,6 +2,7 @@ services:
   - type: web
     name: campus-connect-api
     env: python
+    plan: free
     buildCommand: |
       pip install -r requirements.txt
       python nltk_setup.py
@@ -18,15 +19,15 @@ services:
       - key: JWT_SECRET_KEY
         sync: false
 
-  - type: web
+  - type: static
     name: campus-connect-frontend
-    env: static
+    plan: free
     buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: ./frontend/build
+    publishDir: ./frontend/build
     routes:
       - type: rewrite
         source: /*
         destination: /index.html
     envVars:
       - key: REACT_APP_API_URL
-        value: https://campus-connect-api.onrender.com
+        value: https://campus-connect-api.onrender.com/api
