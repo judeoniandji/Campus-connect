@@ -194,10 +194,35 @@ def register_error_handlers(app):
     def internal_error(error):
         app.logger.error(f"Erreur 500: {error}")
         app.logger.error(traceback.format_exc())
-        db.session.rollback()
+        db.session.rollback()  # Important: annuler toute transaction en cours
         if request.path.startswith('/api/'):
-            return jsonify({'error': 'Internal server error', 'message': str(error)}), 500
-        return render_template('errors/500.html'), 500
+            return jsonify({'error': 'Internal Server Error', 'message': str(error)}), 500
+        # Retourner une réponse HTML simple au lieu d'utiliser render_template
+        html = '''
+        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>CampusConnect - 500 - Erreur serveur</title>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        </head>
+        <body>
+            <div class="container mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 text-center">
+                        <h1 class="display-1">500</h1>
+                        <h2 class="mb-4">Erreur serveur</h2>
+                        <p class="lead">Une erreur interne s'est produite sur le serveur.</p>
+                        <p>Nous avons été informés du problème et travaillons à le résoudre.</p>
+                        <a href="/" class="btn btn-primary mt-3">Retour à l'accueil</a>
+                    </div>
+                </div>
+            </div>
+        </body>
+        </html>
+        '''
+        return html, 500
 
     @app.errorhandler(400)
     def bad_request_error(error):
