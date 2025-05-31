@@ -44,6 +44,17 @@ def create_app(config_name='default'):
         # Fallback à la configuration par défaut
         app.config.from_object(config['default'])
         config['default'].init_app(app)
+        
+    # Ajouter un endpoint de santé au niveau racine pour les vérifications de disponibilité
+    @app.route('/health')
+    def root_health_check():
+        from datetime import datetime
+        return jsonify({
+            'status': 'ok',
+            'timestamp': datetime.now().isoformat(),
+            'service': 'CampusConnect API',
+            'version': '1.0'
+        })
 
     # Configuration des logs
     configure_logging(app)
